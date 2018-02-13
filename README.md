@@ -3,6 +3,7 @@ Cyberspace. Leet hax. Eventyr. Visjonen med prosjektet: Læring gjennom skaping.
 
 Ideer:
  - 
+ - ShitpostMind 9000: Et neuralt nett som bruker mønstergjenkjenning a la det her: https://nerdist.com/what-happens-when-artificial-intelligence-makes-magic-the-gathering-cards/ til å generere memes i ulike sjangre. 
  - FridgeCam: Lite kamera i kjøleskapet som lar deg se hva du har og ikke via en app
  - Arduino-overvåking av vaskemaskiner, 
  - Maskinlæring kan gjenkjenne handlevaner
