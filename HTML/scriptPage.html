@@ -18,10 +18,15 @@ p {
 <script>
 
 var myGamePiece;
+var player2;
+var ball;
+
 
 function startGame() {
-    myGameArea.start();
-    myGamePiece = new component(30, 30, "red", 10, 120);
+    	myGameArea.start();
+    	myGamePiece = new component(30, 30, "red", 10, 120);
+	player2 = new component(30, 30, "blue", 50, 120);
+	ball = new component(15, 15, "grey", 40, 200);
 }
 
 var myGameArea = {
@@ -64,15 +69,51 @@ function component(width, height, color, x, y) {
 }
 
 function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;    
-    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -4; }
-    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 4; }
-    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -4; }
-    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 4; }
-    myGamePiece.newPos();    
-    myGamePiece.update();
+    	myGameArea.clear();    
+    	myGamePiece.speedX = myGamePiece.speedX*0.9;
+    	myGamePiece.speedY = myGamePiece.speedY*0.9;
+	player2.speedX = player2.speedX*0.9;
+	player2.speedY = player2.speedY*0.9;
+    	ball.speedX = ball.speedX*0.9;
+	ball.speedY = ball.speedY*0.9;
+
+    	if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -4; }
+    	if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 4; }
+    	if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -4; }
+    	if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 4; }
+ 
+    	if (myGameArea.key && myGameArea.key == 65) {player2.speedX = -4; }
+    	if (myGameArea.key && myGameArea.key == 68) {player2.speedX = 4; }
+    	if (myGameArea.key && myGameArea.key == 87) {player2.speedY = -4; }
+    	if (myGameArea.key && myGameArea.key == 83) {player2.speedY = 4; }
+    
+	var comp1, comp2, comp3, comp4, comp5, comp6, comp7, comp8;	
+	comp1 = Math.abs(ball.x - myGamePiece.x);
+	comp2 = (myGamePiece.width + ball.width)/2;
+	comp3 = Math.abs(ball.y - myGamePiece.y);
+	comp4 = (myGamePiece.height + ball.height)/2;
+	comp5 = Math.abs(ball.x - player2.x);
+	comp6 = (myGamePiece.width+player2.width)/2;
+	comp7 = Math.abs(ball.y - player2.y);
+	comp8 = (player2.height + ball.height)/2;
+	
+	if ( (comp1 < comp2) && (comp3 < comp4) ){
+		ball.speedX = myGamePiece.speedX*2;
+		ball.speedY = myGamePiece.speedY*2;
+	}
+	
+	else if ( (comp5 < comp6) && (comp7 < comp8) ){
+		ball.speedX = player2.speedX*2;
+		ball.speedY = player2.speedY*2;
+	}
+	
+	
+	ball.newPos();
+	ball.update();   	
+	player2.newPos();
+	player2.update();
+	myGamePiece.newPos();    
+    	myGamePiece.update();
 }
 </script>
 <br>
