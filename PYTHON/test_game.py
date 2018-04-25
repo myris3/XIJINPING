@@ -18,7 +18,7 @@ pygame.display.set_caption("Test_game")
  
 # Loop until the user clicks the close button.
 done = False
-a_number=1
+a_number=3
 
 #[x,y], radius, mass, color, speed[x,y]
 sun = [[500,300], 30,100, RED, [0,0]]
@@ -33,16 +33,26 @@ def drawAll(object_list):
     for item in object_list:
 
         pygame.draw.circle(screen, item[3], (int(item[0][0]), int(item[0][1])), item[1])
-        pygame.draw.line(screen, BLACK, (int(item[0][0]),int(item[0][1])), (int(item[0][0]+item[4][0]),int(item[0][1]+item[4][1])*100 ) )
+        pygame.draw.line(screen, BLACK, (round(item[0][0]),round(item[0][1])), (round(item[0][0]+item[4][0])*2,round(item[0][1]+item[4][1])*2 ) )
 def updateAll(object_list):
     for item in object_list:
         for obj in object_list:
             if (item != obj):
                 item_pos=item[0]
                 obj_pos=obj[0]
-                x_dist = item_pos[0]-obj_pos[0]
-                y_dist = -item_pos[1]+obj_pos[1]
+                x_dist = 0
+                y_dist = 0
+                if item_pos[0]<obj_pos[0]:
+                    x_dist = -item_pos[0] + obj_pos[0]
+                else:
+                    x_dist = item_pos[0] - obj_pos[0]
+                if item_pos[1]<obj_pos[1]:
+                    y_dist = -item_pos[1] + obj_pos[1]
+                else:
+                    y_dist = + item_pos[1] - obj_pos[1]
 
+                item_radius= item[1]
+                object_radius = obj[1]
                 item_speed=item[4]
                 obj_speed = obj[4]
 
@@ -51,19 +61,21 @@ def updateAll(object_list):
                 
                 direction_x=0
                 direction_y=0
-                if x_dist<0:
-                    direction_x=-1
+                if item_pos[0]<obj_pos[0]:
+                    direction_x=1
+                elif item_pos[0]>obj_pos[0]:
+                    direction_x = -1
                 else:
-                    direction_x = 1
-                if y_dist<0:
+                    direction_x = 0
+                if item_pos[1]<obj_pos[1]:
+                    direction_y=1
+                elif item_pos[1]>obj_pos[1]:
                     direction_y=-1
                 else:
-                    direction_y=1
-
-                if (x_dist<item[1]):
-                    x_dist=direction_x*item[1]
-                if (y_dist<item[1]):
-                    y_dist=direction_y*item[1]
+                    direction_y = 0
+                if (x_dist<item_radius and y_dist<item_radius):
+                    x_dist=direction_x*item_radius
+                    y_dist=direction_y*item_radius
 
 
                 item_speed[0]+=direction_x*gravity(item_mass, obj_mass, x_dist)/item_mass
@@ -100,5 +112,5 @@ while not done:
     pygame.display.flip()
  
     # --- Limit to 60 frames per second
-    clock.tick(10)
+    clock.tick(20)
 
