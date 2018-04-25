@@ -11,52 +11,97 @@ p {
 	}
 </style>
 </head>
-<body onload="startGame()">
+<body onload = "startGame()"> 
 <br>
 <a href="http://188.113.117.203/myPage.html">back to index</a>
 <br>
 <script>
 
-var myGamePiece;
+var player1;
 var player2;
 var ball;
+var dynamicComponents;
+var staticComponents;
+var debugging = 0;
+var piece;
+var piece2;
+var wall;
 
 
 function startGame() {
-    	myGameArea.start();
-    	myGamePiece = new component(30, 30, "red", 10, 120);
-	player2 = new component(30, 30, "blue", 50, 120);
-	ball = new component(15, 15, "grey", 40, 200);
+  	if (debugging == 1){
+		document.getElementById("para1").innerText += "\n Starting";
+	}
+	myGameArea.start();
+    	player1 = new component(20, 20, "red", 20, 120, 0, 0);
+	player2 = new component(20, 20, "blue", 200, 120, 0, 0);
+	ball = new component(25, 25, "grey", 100, 200, 0, 0);
+	
+	dynamicComponents = [player1, player2, ball];
+	
+	if (debugging == 1){
+		document.getElementById("para1").innerText += "\n After instancing of dynamic objects, size of DC is " + dynamicComponents.length;
+	}
+	wall1 = new component(10, 500, "black", 0, 0, -1, 1);
+	wall2 = new component(10, 500, "black", 400, 0, -1, 1);
+	wall3 = new component(500, 10, "black", 0, 400, 1, -1);
+	wall4 = new component(500, 10, "black", 0, 0, 1, -1);
+	staticComponents = [wall1, wall2, wall3, wall4];
+	if (debugging == 1) {
+
+		document.getElementById("para1").innerText += "\n After instancing of static objects, size of SC is " + staticComponents.length;
+	}
 }
+
+
+
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = 600;
+        this.canvas.height = 500;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 50);
-        window.addEventListener('keydown', function (e) {
+        /*
+	    window.addEventListener('keydown', function (e) {
             myGameArea.key = e.keyCode;
         })
         window.addEventListener('keyup', function (e) {
             myGameArea.key = false;
-        })
+	})
+
+	*/
     }, 
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
-function component(width, height, color, x, y) {
+function moveright(){
+	player1.speedX += 4;	
+}
+function moveleft(){
+	player1.speedX -= 4;
+}
+function movedown(){
+	player1.speedY += 4;
+}
+function moveup(){
+	player1.speedY -= 4;
+}
+
+function component(width, height, color, x, y, specX, specY) {
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
     this.speedY = 0;    
     this.x = x;
-    this.y = y;    
+    this.y = y;
+    this.specialX = specX;
+    this.specialY = specY;
     this.update = function() {
         ctx = myGameArea.context;
         ctx.fillStyle = color;
@@ -69,58 +114,97 @@ function component(width, height, color, x, y) {
 }
 
 function updateGameArea() {
-    	myGameArea.clear();    
-    	myGamePiece.speedX = myGamePiece.speedX*0.9;
-    	myGamePiece.speedY = myGamePiece.speedY*0.9;
-	player2.speedX = player2.speedX*0.9;
-	player2.speedY = player2.speedY*0.9;
-    	ball.speedX = ball.speedX*0.9;
-	ball.speedY = ball.speedY*0.9;
+   	if (debugging == 1){
+		document.getElementById("para1").innerText += "\n Entering updateGameArea \n";
+   	}
 
-    	if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -4; }
-    	if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 4; }
-    	if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -4; }
-    	if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 4; }
- 
-    	if (myGameArea.key && myGameArea.key == 65) {player2.speedX = -4; }
-    	if (myGameArea.key && myGameArea.key == 68) {player2.speedX = 4; }
-    	if (myGameArea.key && myGameArea.key == 87) {player2.speedY = -4; }
-    	if (myGameArea.key && myGameArea.key == 83) {player2.speedY = 4; }
-    
-	var comp1, comp2, comp3, comp4, comp5, comp6, comp7, comp8;	
-	comp1 = Math.abs(ball.x - myGamePiece.x);
-	comp2 = (myGamePiece.width + ball.width)/2;
-	comp3 = Math.abs(ball.y - myGamePiece.y);
-	comp4 = (myGamePiece.height + ball.height)/2;
-	comp5 = Math.abs(ball.x - player2.x);
-	comp6 = (myGamePiece.width+player2.width)/2;
-	comp7 = Math.abs(ball.y - player2.y);
-	comp8 = (player2.height + ball.height)/2;
-	
-	if ( (comp1 < comp2) && (comp3 < comp4) ){
-		ball.speedX = myGamePiece.speedX*2;
-		ball.speedY = myGamePiece.speedY*2;
-	}
-	
-	else if ( (comp5 < comp6) && (comp7 < comp8) ){
-		ball.speedX = player2.speedX*2;
-		ball.speedY = player2.speedY*2;
-	}
-	
-	
-	ball.newPos();
-	ball.update();   	
-	player2.newPos();
-	player2.update();
-	myGamePiece.newPos();    
-    	myGamePiece.update();
+    	myGameArea.clear();
+
+   	if (debugging == 1){
+
+		document.getElementById("para1").innerText += "\n After .clear";
+   	}
+	updateDynamic();
+
+   	if (debugging == 1){
+   		document.getElementById("para1").innerText += "\n Exiting updateGameArea";
+   	}	
+
 }
+
+
+function updateDynamic(){ 	
+	if (debugging == 1){
+		document.getElementById("para1").innerText += "\n Entering updateDynamic()";
+	}
+	var i;
+	for (i = 0; i < dynamicComponents.length; i++){ 
+		piece = dynamicComponents[i];
+		//piece.speedX = piece.speedX*0.9;
+    		//piece.speedY = piece.speedY*0.9;
+		var z;
+
+		for (z = 0; z < dynamicComponents.length; z++){ // Check for collision on other pieces
+			if (z != i){
+				piece2 = dynamicComponents[z];
+				var comp1;
+				var comp2;
+				var comp3;
+				var comp4;
+				var distance;
+
+				comp1 = Math.abs(piece2.x - piece.x); //Compare x coords
+				comp2 = (piece.width + piece2.width)/2; // Check for collision
+				comp3 = Math.abs(piece2.y - piece.y); // Compare y coords
+				comp4 = (piece.height + piece2.height)/2; // Check for collision
+				if ( (comp1 < comp2) && (comp3 < comp4) ){
+		 			piece2.speedX = piece2.speedX + piece.speedX;
+					piece2.speedY = piece2.speedY + piece.speedY;
+				}
+			}
+			
+		}
+
+		if (debugging == 1){
+			document.getElementById("para1").innerText += "\n Entering nested loop";
+		}
+		var y;
+   		for (y = 0; y < staticComponents.length; y++){
+   			wall = staticComponents[y];
+			var comp1;
+			var comp2;
+			var comp3;
+			var comp4;	 
+			comp1 = Math.abs(piece.x - wall.x); // Compare x coords
+			comp2 = (piece.width + wall.width)/2; // Check for collision
+			comp3 = Math.abs(wall.y - piece.y); // Compare y coords
+			comp4 = (piece.height + wall.height)/2; // Check for collision
+	
+			if ( (comp1 < comp2) && (comp3 < comp4) ){
+				piece.speedX = piece.speedX*wall.specialX;
+				piece.speedY = piece.speedY*wall.specialY;
+			}
+			wall.update();	
+		}
+		
+		piece.newPos();
+		piece.update();
+	}
+}
+
 </script>
 <br>
-<button> A useless button</button>
-<button> nother button</button>
-<button> Surprise button</button>
-<p>Javascript test, piltaster for bevegelse, copy paste fra en eller annen tutorial</p>
+
+<button onMouseOver="moveup()"> Up </button>
+<br>
+<button onMouseOver="moveleft()"> Left </button>
+<button onMouseOver="moveright()"> Right </button>
+<br> 
+<button onMouseOver ="movedown()"> Down </button>
+<br>
+<button onClick ="startGame()"> Reset </button>
+
+<p id="para1">Javascript test, piltaster for bevegelse, copy paste fra en eller annen tutorial</p>
 </body>
 </html>
 
