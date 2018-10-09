@@ -12,6 +12,7 @@ class GravityObject:
         self.speedY = speedY
         self.color = color
         self.shape=0
+
 class Ship(GravityObject):
     def __init__(self, x, y, radius=2, speedX=0, speedY=0, color=(0,255,0), shape=1):
         super().__init__(x, y, radius, speedX, speedY, color, shape)
@@ -25,6 +26,10 @@ class Ship(GravityObject):
         self.speedX += 1
     def moveLeft(self):
         self.speedX +=-1
+    def stop(self):
+        self.speedX=0
+        self.speedY=0
+
 class GameWorld:
     def __init__(self, object_list, screen):
         self.object_list=object_list
@@ -56,8 +61,9 @@ class GameWorld:
                     else:
                         direction_y = -1
 
-                    if abs(x_dist)<item.radius and abs(y_dist)<item.radius:
+                    if abs(x_dist)<item.radius:
                         x_dist = item.radius
+                    if abs(y_dist)<item.radius:
                         y_dist = item.radius
                     item.speedX += direction_x*self.gravity(item.mass, obj.mass, x_dist)/item.mass
                     item.speedY += direction_y*self.gravity(item.mass,obj.mass,x_dist)/item.mass
@@ -91,7 +97,7 @@ def run():
     # Loop until the user clicks the close button.
     done = False
     objects = []
-    a_num = 0
+    a_num = 10
     for i in range(0,a_num):
         objects.append(GravityObject(x=size[0]*r.random(), y=size[1]*r.random(), radius=2+round(5*r.random())))
     sun = GravityObject(x=100, y=100, radius=20, color=RED )
@@ -111,8 +117,7 @@ def run():
                 done = True
      
             elif event.type == pygame.KEYDOWN:
-                # Figure out if it was an arrow key. If so
-                # adjust speed.
+
                 if event.key == pygame.K_LEFT:
                     player.moveLeft()
                 elif event.key == pygame.K_RIGHT:
@@ -121,24 +126,20 @@ def run():
                     player.moveUp()
                 elif event.key == pygame.K_DOWN:
                     player.moveDown()
-     
-                   # --- Game logic should go here
+                elif event.key == pygame.K_SPACE:
+                    player.stop()
+
+           
         world.updateAll()
-        # --- Screen-clearing code goes here
-     
-        # Here, we clear the screen to white. Don't put other drawing commands
-        # above this, or they will be erased with this command.
-     
-        # If you want a background image, replace this clear with blit'ing the
-        # background image.
+
         screen.fill(WHITE)
         
-        # --- Drawing code should go here
+
         world.drawAll()
-        # --- Go ahead and update the screen with what we've drawn.
+      
         pygame.display.flip()
      
-        # --- Limit to 60 frames per second
+
         clock.tick(30)
      
     # Close the window and quit.
