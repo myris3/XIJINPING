@@ -135,7 +135,20 @@ def moveToken(startRow, startColumn, endRow, endColumn, matrix):
         placeToken(endRow, endColumn, matrix, savedToken)
 
 def calculateScore(matrix, token, startingRow):
+    
+    score = 0
+    for r in range(0, len(matrix)):
+        for c in range(0, len(matrix[r])):
+            node = matrix[r][c]
+            if node.color == token:
+                if startingRow == board_size-1:
+                    score += - r + board_size - 1
+                else:
+                    score += r
+    return score
 
+            
+            
 
 
 
@@ -189,27 +202,30 @@ def fullRecursivePossibleMoves(depth, row, column, matrix, moves):
 
 
     
+def createStartingPositions():
+    matrix = newCreateBoardTree()
+    #Assuming board size is reasonable
 
+    #global board_size
+    #board_size = 13
+
+    for i in range(0,4):
+        for col in matrix[i]:
+            placeToken(col.r,col.c, matrix, "1")
+
+    for j in range(len(matrix)-4, len(matrix)):
+        for col in matrix[j]:
+            placeToken(col.r, col.c,matrix, "2")
+
+    return matrix
 
 def run():
-    print("Starting print")
-    matrix = newCreateBoardTree()
-
-    placeToken(0,0, matrix,"1")
-    placeToken(1,1, matrix, "1")
-    placeToken(3,2,matrix,"1")
-    placeToken(4, 3, matrix, "1")
-    placeToken(4,4, matrix, "1")
-    placeToken(5, 2, matrix, "1")
-    placeToken(7, 2, matrix, "1")
-    placeToken(9,1,matrix,"1")
-    placeToken(11,0,matrix,"1")
-
-    possibleMovesVisual(0,0,matrix)
-
+    matrix = createStartingPositions()
+    
+    #second argument in printCheckerBoard determines output format, aligned or not aligned 
+   
     printCheckerBoard(matrix, False)
-    print("End print")
-
+    print("scores\tplayer1: ",calculateScore(matrix, "1", 0),"\n\tplayer2: ",calculateScore(matrix,"2",len(matrix)-1))
 
 
 
