@@ -3,6 +3,9 @@ board_size = 13
 
 max_depth = 100
 
+aligned = False
+
+
 class Node():
     def __init__(self):
         self.neighbours = []
@@ -121,18 +124,21 @@ def printCheckerBoard(matrix, aligned):
 
 
 
-def placeToken(row,column, matrix, token):
+def placeToken(row, column, matrix, token):
     matrix[row][column].color = token
+    return matrix
 
 def removeToken(row, column, matrix):
     saveToken = matrix[row][column].color 
     matrix[row][column].color = "0"
-    return saveToken
+    return matrix, saveToken
 
 def moveToken(startRow, startColumn, endRow, endColumn, matrix):
-    if (matrix[endRow][ebdColumn] == "0"):
-        savedToken = removeToken(startRow, startColumns, matrix)
-        placeToken(endRow, endColumn, matrix, savedToken)
+    if (matrix[endRow][endColumn].color == "0"):
+        matrix, savedToken = removeToken(startRow, startColumn, matrix)
+        matrix = placeToken(endRow, endColumn, matrix, savedToken)
+        #print("Placement happened")
+    return matrix
 
 def calculateScore(matrix, token, startingRow):
     
@@ -164,12 +170,17 @@ def printNeighbours(node):
 def possibleMovesVisual(row, column, matrix):
     #moves = possibleMoves(row, column, matrix)
     moves = {}
-    fullRecursivePossibleMoves(max_depth, row, column, matrix, moves)
+    fullRecursivePossibleMoves(max_depth, row, column, matrix, moves, matrix[row][column])
     for t in moves.keys():
         placeToken(t[0], t[1], matrix,  "x")
 
+def clearVisited(matrix):
+    for row in matrix:
+        for node in row:
+            node.visited = 0
+    return matrix
 
-def fullRecursivePossibleMoves(depth, row, column, matrix, moves):
+def fullRecursivePossibleMoves(depth, row, column, matrix, moves, origin):
     # This seems to actually work, i dub the the delta rule
 
     if depth==0:
@@ -185,7 +196,8 @@ def fullRecursivePossibleMoves(depth, row, column, matrix, moves):
 
         if n.color == "0" and depth == max_depth:
             n.visited = 1
-            moves[(n.r, n.c)] = (n.r, n.c)
+            moves[(n.r, n.c)] = [origin, 0]
+
         if n.color != "0":
             for item in n.neighbours:
                 if item.color == "0":
@@ -195,14 +207,14 @@ def fullRecursivePossibleMoves(depth, row, column, matrix, moves):
                     if (row_delta == 2 or row_delta ==0) and (col_delta ==2 or col_delta ==0):
                         item.visited = 1
                         n.visited = 1
-                        moves[(item.r, item.c)] = (item.r, item.c)
-                        fullRecursivePossibleMoves(depth-1, item.r, item.c, matrix, moves)
+                        moves[(item.r, item.c)] = [origin, 0]
+                        fullRecursivePossibleMoves(depth-1, item.r, item.c, matrix, moves, origin)
 
             
 
 
     
-def createStartingPositions():
+def createStartingPositions(token1, token2):
     matrix = newCreateBoardTree()
     #Assuming board size is reasonable
 
@@ -211,11 +223,11 @@ def createStartingPositions():
 
     for i in range(0,4):
         for col in matrix[i]:
-            placeToken(col.r,col.c, matrix, "1")
+            placeToken(col.r,col.c, matrix, token1)
 
     for j in range(len(matrix)-4, len(matrix)):
         for col in matrix[j]:
-            placeToken(col.r, col.c,matrix, "2")
+            placeToken(col.r, col.c,matrix, token2)
 
     return matrix
 
