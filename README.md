@@ -1,27 +1,20 @@
-# eventyrprosjekt
-Cyberspace. Leet hax. Eventyr. Visjonen med prosjektet: Læring gjennom skaping.
 
-Hensikt: 
-  - 
-  - Lære om hvordan informasjon sendes mellom forskjellige enheter
-  - Få erfaring i noe som kan være relevant for jobb
-  - Lære noe vi interesserer oss for
 
-Metode:
-  - 
-  - Implementere en maskinlæringsalgoritme for å ha prøvd det
+PURPOSE:
+    Create/Train an agent to play chinese checkers better than any average joe.
+HOW:
+    Using object oriented python, we will create a way to represent the game, game results, and the agents.
+    TensorFlow is the primary candidate for a tool to build an agent suitable to our purpose. A simple greedy agent will be used as a   baseline, to compare performance and sometimes train on.
+
+WHY:
+  Why do anything, it seemed like a good idea at the time of its inception.
+WHERE:
+  ---
+WHEN:
+  Hopefully a working implementation of the ML agent will be functional by the end of next week
+
+STATUS:
+
+  *24.10.2018*
+  I have been able to work on this regularly in the last couple of days. This tides well for the future, as much progress has been made on the game implementation front, however, not much progress has been made on the ML front.
   
-Sluttilstand:
-  - 
-  - Udefinert
-  
-Ideer:
- - 
- - Vilkårlig spill på nettsiden. Vi programmerer en læringsalgoritme i Javascript som spiller spillet, og nettsiden er til for at folk kan gå inn og spectate. 
- - ShitpostMind 9000: Et neuralt nett som bruker mønstergjenkjenning a la det her: https://nerdist.com/what-happens-when-artificial-intelligence-makes-magic-the-gathering-cards/ til å generere memes i ulike sjangre. 
- - FridgeCam: Lite kamera i kjøleskapet som lar deg se hva du har og ikke via en app
- - Arduino-overvåking av vaskemaskiner, 
- - Maskinlæring kan gjenkjenne handlevaner
- - Bruke nettleserloggen som rådata til maskinlæring
- - Lage en nettside som kommer med forslag på fag man kan ta ut fra interesser eller fag man har tatt fra før. Forslag/Rangeringsalgoritme. Kan hente data fra NTNU sine sider. Evt hente informasjon fra studieløp om fagsammensetning. Evt fra ferdige vitnemål?
- 
