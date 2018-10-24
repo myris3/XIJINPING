@@ -8,8 +8,6 @@ HOW:
 
 WHY:
   Why do anything, it seemed like a good idea at the time of its inception.
-WHERE:
-  ---
 WHEN:
   Hopefully a working implementation of the ML agent will be functional by the end of next week
 
