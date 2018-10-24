@@ -17,7 +17,6 @@
 #WHEN:
   Hopefully a working implementation of the ML agent will be functional by the end of next week. Caveat: Functional does not necessarily mean optimal!
 
-
 #STATUS:
 
   *24.10.2018*
