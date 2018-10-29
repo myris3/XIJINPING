@@ -19,6 +19,10 @@
 
 #STATUS:
 
+  *29.10.2018*
+  No new commits just yet, some pondering required to set up what will amount to reinforcement learning. Q learning rule, tensorflow libs and visualising just how the agent will be trained. 
+  
+   
   *24.10.2018*
   I have been able to work on this regularly in the last couple of days. This tides well for the future, as much progress has been made on the game implementation front, however, not much progress has been made on the ML front.
   
