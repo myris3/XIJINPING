@@ -15,7 +15,13 @@
   Why do anything, it seemed like a good idea at the time of its inception.
 
 #WHEN:
-  Hopefully a working implementation of the ML agent will be functional by the end of next week. Caveat: Functional does not necessarily mean optimal!
+  Soon^TM 
+
+
+
+
+
+
 
 #STATUS:
 
@@ -25,4 +31,6 @@
    
   *24.10.2018*
   I have been able to work on this regularly in the last couple of days. This tides well for the future, as much progress has been made on the game implementation front, however, not much progress has been made on the ML front.
-  
+
+  *11.01.2019*
+  This has been a bad christmas for personal programming projects, but better times are coming. Not much added this time, refamiliarizing with old code, and dipping toes into pyTorch.  
