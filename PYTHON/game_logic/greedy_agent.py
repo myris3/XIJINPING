@@ -177,6 +177,7 @@ class Game():
         score2 = 0
         turns = 0
         #shape of this sould be a copy of the board, turn count, scores of each player
+        # Idea of this is to be a history of the game, maybe to be used later by the learning algorithm
         turnStack = []
 
         while self.gameNotOver:
@@ -220,13 +221,15 @@ class Game():
                 
                 break
 
-            #else:
-                #print("Turn ", self.turn,". Player ", self.current, " moved ", toMove, move)
-            #time.sleep(5)
-            #helper.printCheckerBoard(self.gameBoard, helper.aligned)
-           # print("scores\tplayer1: ",helper.calculateScore(self.gameBoard, self.player1.token, 0), "\n\tplayer2: ",helper.calculateScore(self.gameBoard, self.player2.token, len(self.gameBoard)-1))
+            else:
+                """
+                print("Turn ", self.turn,". Player ", self.current, " moved ", toMove, move)
+                #time.sleep(5)
+                helper.printCheckerBoard(self.gameBoard, helper.aligned)
+                print("scores\tplayer1: ",helper.calculateScore(self.gameBoard, self.player1.token, 0), "\n\tplayer2: ",helper.calculateScore(self.gameBoard, self.player2.token, len(self.gameBoard)-1))
 
-            #print("")
+                print("")
+                """
             if self.gameNotOver: #This goes into ml algorithm, bookkeeping
                 boardCopy = helper.simplifyBoardRep(self.gameBoard)
                 #self.turn
@@ -254,6 +257,11 @@ def run():
     results = game.play()
 
     print("Winner is player " + str(results[0]) + " with " + str(results[1]) + " points on turn " + str(results[2]) + ".\nLoser is player "+ str(results[3])+ " with "+str(results[4])+" points." )
+    """
     #print(results[5])
+    for item in results[5]:
+        print(item)
+        print("")
+    """
 if __name__ == "__main__":
     run()

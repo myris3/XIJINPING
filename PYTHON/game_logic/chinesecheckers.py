@@ -3,7 +3,7 @@ board_size = 13
 
 max_depth = 100
 
-aligned = True
+aligned = False
 
 max_turns = 100
 
